@@ -11,7 +11,7 @@ add_compile_options(
     $<$<COMPILE_LANG_AND_ID:C,Clang>:-fcolor-diagnostics>
 )
 
-add_subdirectory(${CMAKE_HOME_DIRECTORY}/lib/Simple3dStepperMovementPlanner)
+# add_subdirectory(${CMAKE_HOME_DIRECTORY}/lib/Simple3dStepperMovementPlanner)
 
 # Create an interface target to set system include directories for Pico SDK libraries
 add_library(pico_system_include_dirs INTERFACE)

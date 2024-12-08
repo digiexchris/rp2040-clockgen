@@ -32,7 +32,7 @@
                 "panel": "dedicated"
             },
             "args": [
-                "${workspaceFolder}/build/src/StepperPowerFeed.elf"
+                "${workspaceFolder}/build/src/PicoProject.elf"
             ],
             "hide": true,
             "problemMatcher": []
@@ -52,7 +52,7 @@
                 "panel": "dedicated"
             },
             "args": [
-                "${workspaceFolder}/build/src/StepperPowerFeed.elf"
+                "${workspaceFolder}/build/src/PicoProject.elf"
             ],
             "problemMatcher": []
         },
@@ -66,7 +66,7 @@
                 "panel": "dedicated"
             },
             "args": [
-                "${workspaceFolder}/build/tests/StepperPowerFeed_tests.elf"
+                "${workspaceFolder}/build/tests/PicoProject_tests.elf"
             ],
             "problemMatcher": [],
         },

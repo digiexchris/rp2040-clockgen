@@ -6,20 +6,20 @@ FILE(GLOB_RECURSE app_sources
   set(BOARD "raspberry_pi_pico" CACHE STRING "" FORCE)
   set(FAMILY "rp2040")
 
-set(FREERTOS_PORT "GCC_RP2040" CACHE STRING "" FORCE)
-add_library(freertos_config INTERFACE)
-target_include_directories(freertos_config SYSTEM
-INTERFACE
-  ${CMAKE_CURRENT_LIST_DIR}
-)
+# set(FREERTOS_PORT "GCC_RP2040" CACHE STRING "" FORCE)
+# add_library(freertos_config INTERFACE)
+# target_include_directories(freertos_config SYSTEM
+# INTERFACE
+#   ${CMAKE_CURRENT_LIST_DIR}
+# )
 
-target_compile_definitions(freertos_config
-  INTERFACE
-    projCOVERAGE_TEST=0
-)
-set( FREERTOS_HEAP "4" CACHE STRING "" FORCE)
+# target_compile_definitions(freertos_config
+#   INTERFACE
+#     projCOVERAGE_TEST=0
+# )
+# set( FREERTOS_HEAP "4" CACHE STRING "" FORCE)
 
-message( STATUS "FREERTOS_KERNEL_PATH: ${FREERTOS_KERNEL_PATH}" )
+# message( STATUS "FREERTOS_KERNEL_PATH: ${FREERTOS_KERNEL_PATH}" )
 
 FILE(GLOB_RECURSE app_sources 
     #main app
@@ -27,9 +27,9 @@ FILE(GLOB_RECURSE app_sources
     )
 
 # Pull in FreeRTOS
-include(${CMAKE_HOME_DIRECTORY}/FreeRTOS_Kernel_import.cmake)
+# include(${CMAKE_HOME_DIRECTORY}/FreeRTOS_Kernel_import.cmake)
 
-add_executable(StepperPowerFeed
+add_executable(PicoProject
 ${app_sources}
         )
 
@@ -56,14 +56,14 @@ add_compile_options(
 if (WIN32)
 add_custom_command(TARGET PicoProject POST_BUILD
  COMMAND ${CMAKE_COMMAND} -E echo "Build succeeded! "
- COMMAND /bin/bash ${CMAKE_HOME_DIRECTORY}/tools/win64/flash.bat $<TARGET_FILE:StepperPowerFeed>
+ COMMAND /bin/bash ${CMAKE_HOME_DIRECTORY}/tools/win64/flash.bat $<TARGET_FILE:PicoProject>
 )
 else()
 
 if(NOT BUILD_TESTS)
 add_custom_command(TARGET PicoProject POST_BUILD
 COMMAND ${CMAKE_COMMAND} -E echo "Build succeeded!"
-COMMAND /bin/bash ${CMAKE_HOME_DIRECTORY}/tools/linux/flash.sh $<TARGET_FILE:StepperPowerFeed>
+COMMAND /bin/bash ${CMAKE_HOME_DIRECTORY}/tools/linux/flash.sh $<TARGET_FILE:PicoProject>
 )
 endif()
 endif()
@@ -79,8 +79,8 @@ endif()
 #     SET(${return_list} ${dir_list})
 # ENDMACRO()
 
-pico_generate_pio_header(PicoProject ${CMAKE_HOME_DIRECTORY}/pio/blink.pio)
-pico_generate_pio_header(PicoProject ${CMAKE_HOME_DIRECTORY}/pio/stepper.pio)
+# pico_generate_pio_header(PicoProject ${CMAKE_HOME_DIRECTORY}/pio/blink.pio)
+pico_generate_pio_header(PicoProject ${CMAKE_HOME_DIRECTORY}/pio/pwm.pio)
 
 target_include_directories(PicoProject PRIVATE
         ${CMAKE_HOME_DIRECTORY}
@@ -88,11 +88,11 @@ target_include_directories(PicoProject PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR})
 
 
-target_link_libraries(PicoProject pico_system_include_dirs pico_stdio_usb  FreeRTOS-Kernel FreeRTOS-Kernel-Heap4)
+target_link_libraries(PicoProject pico_system_include_dirs pico_stdio_usb)
 pico_add_extra_outputs(PicoProject)
 
 add_dependencies(PicoProject copy_compile_commands)
 
 # Use USB uart
 pico_enable_stdio_usb(PicoProject 1)
-# pico_enable_stdio_uart(StepperPowerFeed 0)
+# pico_enable_stdio_uart(PicoProject 0)

@@ -1,0 +1,5 @@
+.program pwm
+.wrap_target           ; Define the start of the loop
+    set pins, 1 [0]   ; Set the pin high
+    set pins, 0 [0]   ; Set the pin low
+.wrap                  ; Define the end of the loop
